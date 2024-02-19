@@ -1,0 +1,14 @@
+.card-actions {
+    transition: opacity 0.3s;
+    opacity: 0;
+}
+
+.card:hover .card-actions {
+    opacity: 1;
+}
+
+.my-label {
+    color: #333;
+    font-size: 1.2em;
+    font-weight: bold;
+}

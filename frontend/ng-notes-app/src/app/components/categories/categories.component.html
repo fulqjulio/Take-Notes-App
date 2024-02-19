@@ -1,0 +1,29 @@
+<div class="container-sm mt-4 centered">
+    <div class="row">
+        <div class="col-12 ms-auto d-flex">
+            <a class="btn btn-light" routerLink="/notes">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <h2>Create Category</h2>
+        </div>
+    </div>
+    <div class="row">
+        <form [formGroup]="category" (ngSubmit)="createCategory()">
+            <div class="col-12 ms-auto d-flex" >
+                <div class="form-group mt-2 w-100">
+                    <input formControlName="name" type="text" class="form-control" id="category" placeholder="Enter category" />
+                </div>
+                <button type="submit" class="btn btn-primary" [disabled]="!category.valid" >Create</button>
+            </div>
+        </form>
+    </div>
+    <br>
+    <h4>Categories</h4>
+    @for (category of categories; track category.id) {
+        <span class="badge bg-primary me-1">
+            {{ category.name }} 
+            <a (click)="deleteCategory(category.id)" class="text-white cursor-pointer">(x)</a>
+        </span>
+    }
+    
+</div>

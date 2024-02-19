@@ -1,0 +1,125 @@
+<!-- Main Content Section -->
+<div class="container-sm mt-4 centered">
+    
+        @defer {
+            @if (!archived) {
+                <!-- Unachived Notes Section -->
+                <div class="row">
+                    <div class="col-8">
+                        <h2>My Notes</h2>
+                    </div>
+                    <div class="col-4 ms-auto d-flex align-items-center">
+                        <label for="filter" class="my-label me-2"> Category:</label>
+                        <select class="form-select" id="filter" [formControl]="selectedCategoryId" >
+                            <option value="0">All</option>
+                            @for (category of categories; track category.id) {
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card-deck mt-3">
+
+                @for (note of notes; track note.id) {
+                    <div class="card">
+                        <div class="card-body row">
+                            <div class="col-8">
+                                <h4 class="card-title">{{ note.title }}</h4>
+                                @for (
+                                    category of note.categories;
+                                    track category.id
+                                ) {
+                                    <span class="badge bg-primary me-1">{{
+                                        category.name
+                                    }}</span>
+                                }
+    
+                                <p class="card-text mt-1">
+                                    {{
+                                        note.content
+                                            ? (note.content | firstFiveWords)
+                                            : ""
+                                    }}
+                                </p>
+                            </div>
+                            <div class="col-4 ms-auto d-flex align-items-center justify-content-end card-actions">
+                                <button type="button" class="btn btn-primary me-2" title="Edit note" routerLink="/editnote/{{note.id}}">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <button class="btn btn-success me-2" title="Archive" (click)="archiveNote(note, false)">
+                                    <i class="bi bi-archive-fill"></i>
+                                </button>
+                                <button class="btn btn-danger me-2" title="Delete note" (click)="deleteNote(note, false)" >
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+                </div>
+            }
+            @else {
+                
+                <div class="row">
+                    <div class="col-8">
+                        <h2>My Archived Notes</h2>
+                    </div>
+                    <div class="col-4 ms-auto d-flex align-items-center">
+                        <label for="filter" class="my-label me-2"> Category:</label>
+                        <select class="form-select" id="filter" [formControl]="selectedCategoryArchivedId" >
+                            <option value="0">All</option>
+                            @for (category of categories; track category.id) {
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="card-deck mt-3">
+
+                @for (archivedNote of archivedNotes; track archivedNote.id) {
+                    <div class="card">
+                        <div class="card-body row">
+                            <div class="col-8">
+                                <h4 class="card-title">{{ archivedNote.title }}</h4>
+                                @for (
+                                    category of archivedNote.categories;
+                                    track category.id
+                                ) {
+                                    <span class="badge bg-primary me-1">{{
+                                        category.name
+                                    }}</span>
+                                }
+    
+                                <p class="card-text mt-1">
+                                    {{
+                                        archivedNote.content
+                                            ? (archivedNote.content | firstFiveWords)
+                                            : ""
+                                    }}
+                                </p>
+                            </div>
+                            <div class="col-4 ms-auto d-flex align-items-center justify-content-end card-actions">
+                                <button type="button" class="btn btn-primary me-2" title="Edit note" routerLink="/editnote/{{archivedNote.id}}">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <button class="btn btn-success me-2" title="Unarchive" (click)="archiveNote(archivedNote, true)">
+                                    <i class="bi bi-archive"></i>
+                                </button>
+                                <button class="btn btn-danger me-2" title="Delete note" (click)="deleteNote(archivedNote, true)" >
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+                </div>
+            }
+        }
+        @loading {
+            <div class="spinner-border text-primary" role="status">
+                <span>Loading...</span>
+            </div>
+        }
+    
+</div>

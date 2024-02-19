@@ -1,0 +1,57 @@
+<!-- Edit Note Form -->
+<div class="container-sm mt-4 centered">
+    <form [formGroup]="editnote" (ngSubmit)="save()">
+
+        <div class="row">
+            <div class="col-6 ms-auto d-flex">
+                <button class="btn btn-light" routerLink="/notes">
+                    <i class="bi bi-arrow-left"></i>
+                </button>
+                <h2>Edit Note</h2>
+            </div>
+            <div class="col-6 d-flex ms-auto justify-content-end">
+                <button type="submit" class="btn btn-primary" [disabled]="!editnote.valid">
+                    <i class="bi bi-save"></i>
+                </button>
+            </div>
+        </div>
+        @defer {
+            @for (category of categoriesToAdd; track category.id) {
+                <span class="badge bg-primary me-1">
+                    {{ category.name }}
+                    <a (click)="addCategoryToNote(category.id)" class="text-white cursor-pointer">(+)</a>
+                </span>
+            }
+            <br>
+            @for (category of note.categories; track category.id) {
+                <span class="badge bg-primary me-1">
+                    {{ category.name }}
+                    <a (click)="deleteCategoryFromNote(category.id)" class="text-white cursor-pointer">(x)</a>
+                </span>
+            }
+        }
+        @loading {
+            <div class="spinner-border text-primary" role="status">
+                <span>Loading...</span>
+            </div>
+        }
+        <div class="form-group mt-2">
+            <input
+            formControlName="title"
+            type="text"
+            class="form-control borderless-input"
+            id="noteTitle"
+            placeholder="Enter note title"
+            />
+        </div>
+        <div class="form-group mt-2">
+            <textarea
+            formControlName="content" 
+            class="form-control borderless-input"
+            id="noteContent"
+            rows="20"
+            placeholder="Enter note content"
+            ></textarea>
+        </div>
+    </form>
+</div>
